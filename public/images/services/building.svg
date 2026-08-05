@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<rect x="30" y="24" width="110" height="152" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="54" y="46" width="18" height="18" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="82" y="46" width="18" height="18" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="110" y="46" width="18" height="18" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="54" y="76" width="18" height="18" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="82" y="76" width="18" height="18" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="110" y="76" width="18" height="18" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<rect x="82" y="118" width="30" height="58" fill="#FF4D00"/>
+<line x1="140" y1="70" x2="170" y2="70" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<line x1="170" y1="70" x2="170" y2="130" stroke="#0A0A0A" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
