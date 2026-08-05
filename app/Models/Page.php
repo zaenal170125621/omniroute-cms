@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Page extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'content',
+        'seo_title',
+        'seo_description',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    /**
+     * Route model binding berbasis slug, supaya URL admin
+     * lebih ramah: /admin/pages/{slug}/edit (mis. /admin/pages/about/edit).
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+}
