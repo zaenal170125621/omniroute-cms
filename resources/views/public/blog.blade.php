@@ -23,13 +23,13 @@
         </form>
 
         @if ($q && !$posts->isEmpty())
-            <p style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:24px;">
+            <p style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:24px;">
                 {{ $posts->total() }} {{ __('artikel untuk') }} "{{ $q }}"
             </p>
         @endif
 
         @if ($posts->isEmpty())
-            <p style="text-align:center;color:var(--gray-400);padding:64px 0;">
+            <p style="text-align:center;color:var(--gray-500);padding:64px 0;">
                 @if ($q)
                     {{ __('Tidak ada artikel untuk') }} "{{ $q }}". {{ __('Coba kata kunci lain.') }}
                 @else
@@ -46,7 +46,7 @@
                             <div class="cover">{{ $post->category ?: __('Artikel') }}</div>
                         @endif
                         <div class="card-body">
-                            <div class="meta" style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-400);margin-bottom:10px;">
+                            <div class="meta" style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:10px;">
                                 <span>{{ $post->category ?: 'Artikel' }}</span>
                                 <span>{{ $post->publishedDate() }}</span>
                             </div>

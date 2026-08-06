@@ -27,6 +27,7 @@
     <link rel="alternate" hreflang="en" href="{{ route('home') }}?lang=en">
     <link rel="alternate" hreflang="x-default" href="{{ route('home') }}">
     
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/public.css') }}">
     @stack('head')
     @if (setting('analytics_head'))
@@ -107,20 +108,11 @@
             </div>
             <div class="footer-col">
                 <h4>{{ __('Kontak') }}</h4>
-                <li>{{ setting('email', '') }}</li>
-                <li>{{ setting('phone', '') }}</li>
-                <li>{{ setting('address', '') }}</li>
-                @if (setting('instagram'))
-                    <a href="{{ setting('instagram') }}" target="_blank" rel="noopener">Instagram</a>
-                @endif
-                @if (setting('linkedin'))
-                    <a href="{{ setting('linkedin') }}" target="_blank" rel="noopener">LinkedIn</a>
-                @endif
-            <div class="footer-col">
-                <h4>{{ __('Kontak') }}</h4>
-                <li>{{ setting('email', '') }}</li>
-                <li>{{ setting('phone', '') }}</li>
-                <li>{{ setting('address', '') }}</li>
+                <ul>
+                    <li>{{ setting('email', '') }}</li>
+                    <li>{{ setting('phone', '') }}</li>
+                    <li>{{ setting('address', '') }}</li>
+                </ul>
                 @if (setting('instagram'))
                     <a href="{{ setting('instagram') }}" target="_blank" rel="noopener">Instagram</a>
                 @endif
@@ -163,6 +155,7 @@
     };
 </script>
 
+<script src="{{ asset('vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

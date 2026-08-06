@@ -7,18 +7,13 @@
 
 {{-- ============ HERO ============ --}}
 <section class="hero">
-    <div class="container hero-grid">
-        <div class="hero-copy">
-            <span class="hero-badge">{{ setting('hero_badge', 'EST. 2020 — JAKARTA, ID') }}</span>
-            <h1>{!! nl2br(e(setting('hero_title', 'Website yang bekerja sekeras tim Anda.'))) !!}</h1>
-            <p class="hero-sub">{{ setting('hero_subtitle', '') }}</p>
-            <div class="hero-actions">
-                <a href="{{ route('order') }}" class="btn">{{ setting('hero_cta_primary', 'Mulai Proyek') }} →</a>
-                <a href="{{ route('portfolio.index') }}" class="btn btn-outline">{{ setting('hero_cta_secondary', 'Lihat Portofolio') }}</a>
-            </div>
-        </div>
-        <div class="hero-art">
-            <img src="{{ asset('images/hero.jpg') }}" alt="Web · Design · Code — OmniRoute Studio" width="1600" height="1000" loading="eager">
+    <div class="container">
+        <span class="hero-badge">{{ setting('hero_badge', 'EST. 2020 — JAKARTA, ID') }}</span>
+        <h1>{!! nl2br(e(setting('hero_title', 'Website yang bekerja sekeras tim Anda.'))) !!}</h1>
+        <p class="hero-sub">{{ setting('hero_subtitle', '') }}</p>
+        <div class="hero-actions">
+            <a href="{{ route('order') }}" class="btn btn-light">{{ setting('hero_cta_primary', 'Mulai Proyek') }} →</a>
+            <a href="{{ route('portfolio.index') }}" class="btn btn-ghost-light">{{ setting('hero_cta_secondary', 'Lihat Portofolio') }}</a>
         </div>
     </div>
 </section>
@@ -48,7 +43,7 @@
                     <div class="card-body">
                         <div class="icon icon-img">
                             @if ($icon = service_icon_url($service->icon))
-                                <img src="{{ $icon }}" alt="{{ $service->title }}" loading="lazy">
+                                <img src="{{ $icon }}" alt="" aria-hidden="true" loading="lazy">
                             @else
                                 {{ $service->icon === 'arrow' ? '→' : strtoupper(substr($service->icon, 0, 2)) }}
                             @endif

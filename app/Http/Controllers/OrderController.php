@@ -78,6 +78,7 @@ class OrderController extends Controller
                 'name' => 'Starter',
                 'price' => 'Rp 3.500.000',
                 'desc' => 'Landing page / company profile satu halaman, 5–7 hari.',
+                'popular' => false,
                 'features' => [
                     'Desain custom & responsive',
                     'Halaman: Home, About, Contact',
@@ -114,6 +115,7 @@ class OrderController extends Controller
                 'name' => 'Custom',
                 'price' => 'Diskusi',
                 'desc' => 'E-commerce, web app, atau kebutuhan khusus.',
+                'popular' => false,
                 'features' => [
                     'Desain & arsitektur custom',
                     'Fitur sesuai kebutuhan (e-commerce, booking, dashboard, dll)',

@@ -29,9 +29,15 @@
         <div class="pricing-grid" id="pricing-grid">
             @foreach ($packages as $package)
                 <div class="pricing-col {{ $package['popular'] ?? false ? 'popular' : '' }}" data-package="{{ $package['code'] }}">
+                    @if ($package['popular'] ?? false)
+                        <span class="p-badge">{{ __('Paling Populer') }}</span>
+                    @endif
                     <div class="p-name">{{ $package['name'] }}</div>
                     <div class="p-price">
-                        {{ $package['price'] }}
+                        @if ($package['price'] !== 'Diskusi')
+                            <span class="p-price-from">{{ __('Mulai dari') }}</span>
+                        @endif
+                        <span class="p-price-value">{{ $package['price'] }}</span>
                         @if ($package['price'] !== 'Diskusi')
                             <span class="price-period">{{ __('sekali bayar') }}</span>
                         @endif
@@ -44,11 +50,11 @@
                         @endforeach
                     </ul>
 
-                    <a href="{{ route('order') }}?package={{ $package['code'] }}" class="btn {{ $package['popular'] ? '' : 'btn-outline' }}" style="margin-top:auto;width:100%;text-align:center;" data-cta-package="{{ $package['code'] }}">
-                        @if ($package['popular'])
+                    <a href="{{ route('order') }}?package={{ $package['code'] }}" class="btn {{ ($package['popular'] ?? false) ? '' : 'btn-outline' }}" data-cta-package="{{ $package['code'] }}">
+                        @if ($package['popular'] ?? false)
                             {{ __('Pilih Paket Ini') }}
                         @else
-                            {{ __('Mulai') }}
+                            {{ __('Pilih Paket') }}
                         @endif
                     </a>
                 </div>
@@ -70,9 +76,9 @@
                     <tr>
                         <th scope="col">{{ __('Fitur') }}</th>
                         @foreach ($packages as $package)
-                            <th scope="col" class="{{ $package['popular'] ? 'popular-column' : '' }}">
+                            <th scope="col" class="{{ ($package['popular'] ?? false) ? 'popular-column' : '' }}">
                                 {{ $package['name'] }}
-                                @if ($package['popular'])
+                                @if ($package['popular'] ?? false)
                                     <span class="pill" style="margin-left:8px;font-size:10px;padding:2px 8px;background:var(--accent);color:var(--white);">{{ __('Populer') }}</span>
                                 @endif
                             </th>

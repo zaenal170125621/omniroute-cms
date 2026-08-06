@@ -7,6 +7,13 @@
 
 <section class="detail-hero">
     <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="{{ route('home') }}">{{ __('Beranda') }}</a>
+            <span class="sep" aria-hidden="true">/</span>
+            <a href="{{ route('services.index') }}">{{ __('Layanan') }}</a>
+            <span class="sep" aria-hidden="true">/</span>
+            <span aria-current="page">{{ $service->title }}</span>
+        </nav>
         <span class="section-label">Layanan — {{ $service->title }}</span>
         <h1>{{ $service->title }}</h1>
         <div class="detail-meta">

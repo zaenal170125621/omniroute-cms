@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="user-theme-preference" content="{{ auth()->check() ? (auth()->user()->theme_preference ?? '') : '' }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
@@ -117,6 +118,7 @@
     };
 </script>
 
+<script src="{{ asset('vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

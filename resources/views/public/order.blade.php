@@ -43,6 +43,7 @@
                     @endforeach
                 </div>
                 @error('package') <div class="form-error">{{ $message }}</div> @enderror
+                <div class="form-error package-error" style="display:none;">{{ __('Pilih salah satu paket terlebih dahulu.') }}</div>
                 <div class="step-actions">
                     <span></span>
                     <button type="button" class="btn" data-next>{{ __('Lanjut') }} →</button>

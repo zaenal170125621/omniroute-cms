@@ -80,6 +80,15 @@
     }
 
     function validateStep(index) {
+      // Step 1 requires a package selection
+      if (index === 0 && !packageInput.value) {
+        var pkgError = orderForm.querySelector('.package-error');
+        if (pkgError) pkgError.style.display = 'block';
+        var firstOption = orderForm.querySelector('.package-option');
+        if (firstOption) firstOption.focus();
+        return false;
+      }
+
       var panel = panels[index];
       var fields = panel.querySelectorAll('[required]');
       for (var i = 0; i < fields.length; i++) {
@@ -122,6 +131,8 @@
         orderForm.querySelectorAll('.package-option').forEach(function (o) { o.classList.remove('selected'); });
         opt.classList.add('selected');
         packageInput.value = opt.getAttribute('data-package');
+        var pkgError = orderForm.querySelector('.package-error');
+        if (pkgError) pkgError.style.display = 'none';
       });
       // Keyboard support
       opt.addEventListener('keydown', function (e) {
@@ -131,6 +142,14 @@
         }
       });
     });
+
+    // Preselect package from URL (?package=xxx) — e.g. from pricing page
+    var urlPackage = new URLSearchParams(window.location.search).get('package');
+    if (urlPackage) {
+      orderForm.querySelectorAll('.package-option').forEach(function (opt) {
+        if (opt.getAttribute('data-package') === urlPackage) opt.click();
+      });
+    }
 
     showStep(0);
   }

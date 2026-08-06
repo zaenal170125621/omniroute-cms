@@ -7,6 +7,13 @@
 
 <section class="detail-hero">
     <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="{{ route('home') }}">{{ __('Beranda') }}</a>
+            <span class="sep" aria-hidden="true">/</span>
+            <a href="{{ route('portfolio.index') }}">{{ __('Portofolio') }}</a>
+            <span class="sep" aria-hidden="true">/</span>
+            <span aria-current="page">{{ $portfolio->title }}</span>
+        </nav>
         <span class="section-label">Portofolio — {{ $portfolio->categoryLabel() }}</span>
         <h1>{{ $portfolio->title }}</h1>
         <div class="detail-meta">
