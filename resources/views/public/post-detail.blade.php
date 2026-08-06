@@ -2,6 +2,42 @@
 
 @section('title', $post->title . ' — Blog ' . setting('company_name', 'OmniRoute Studio'))
 @section('meta_description', $post->excerpt)
+@section('og_image', $post->cover_image ? cover_url($post->cover_image) : asset('images/hero.jpg'))
+
+@php
+    $orgSchema = [
+        '@type' => 'Organization',
+        'name' => setting('company_name', 'OmniRoute Studio'),
+        'url' => url('/'),
+        'logo' => [
+            '@type' => 'ImageObject',
+            'url' => asset('images/hero.jpg'),
+        ],
+    ];
+    $articleSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Article',
+        'headline' => $post->title,
+        'description' => $post->excerpt,
+        'datePublished' => $post->published_at?->toIso8601String(),
+        'author' => $orgSchema,
+        'publisher' => $orgSchema,
+        'mainEntityOfPage' => url()->current(),
+    ];
+    $crumbSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => __('Beranda'), 'item' => route('home')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => __('Blog'), 'item' => route('blog.index')],
+            ['@type' => 'ListItem', 'position' => 3, 'name' => $post->title, 'item' => url()->current()],
+        ],
+    ];
+@endphp
+@push('head')
+    <script type="application/ld+json">{!! json_encode($articleSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+    <script type="application/ld+json">{!! json_encode($crumbSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+@endpush
 
 @section('content')
 
@@ -35,5 +71,38 @@
         </div>
     </div>
 </section>
+
+@if ($related->isNotEmpty())
+<section class="section" style="background:var(--gray-50);">
+    <div class="container">
+        <div class="section-header">
+            <div>
+                <span class="section-label">{{ __('Baca juga') }}</span>
+                <h2 class="section-title">{{ __('Artikel terkait') }}</h2>
+            </div>
+            <a href="{{ route('blog.index') }}" class="section-link">{{ __('Semua Artikel') }}</a>
+        </div>
+
+        <div class="grid-3">
+            @foreach ($related as $relatedPost)
+                <a href="{{ route('blog.show', $relatedPost->slug) }}" class="card card-link post-card">
+                    @if ($relatedPost->cover_image)
+                        <img src="{{ cover_url($relatedPost->cover_image) }}" alt="{{ $relatedPost->title }}" loading="lazy" style="aspect-ratio:16/9;object-fit:cover;width:100%;">
+                    @else
+                        <div class="cover">{{ $relatedPost->category ?: __('Artikel') }}</div>
+                    @endif
+                    <div class="card-body">
+                        <div class="meta" style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:10px;">
+                            <span>{{ $relatedPost->category ?: 'Artikel' }}</span>
+                            <span>{{ $relatedPost->publishedDate() }}</span>
+                        </div>
+                        <h3>{{ $relatedPost->title }}</h3>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 
 @endsection

@@ -29,6 +29,7 @@ class SettingController extends Controller
         'order_note' => 'Catatan Halaman Order',
         'lead_notify_email' => 'Email Notifikasi Lead Baru (Sales)',
         'analytics_head' => 'Kode Analytics (Header)',
+        'clients' => 'Daftar Klien (pisahkan koma)',
     ];
 
     public function index()

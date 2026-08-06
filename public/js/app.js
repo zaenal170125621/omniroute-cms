@@ -300,4 +300,138 @@
     });
   });
 
+  // ============================================================
+  // Count-up stats (animasi angka statistik)
+  // ============================================================
+  function animateCount(el) {
+    var target = parseFloat(el.getAttribute('data-count'));
+    if (isNaN(target)) return;
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 1400;
+    var start = null;
+
+    function format(value) {
+      return value.toFixed(decimals).replace('.', ',');
+    }
+
+    function step(ts) {
+      if (start === null) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      el.innerHTML = format(target * eased) + (suffix ? '<sup>' + suffix + '</sup>' : '');
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    el.innerHTML = format(0) + (suffix ? '<sup>' + suffix + '</sup>' : '');
+    requestAnimationFrame(step);
+  }
+
+  var nums = document.querySelectorAll('.stat .num[data-count]');
+  if (nums.length) {
+    if ('IntersectionObserver' in window && !prefersReducedMotion()) {
+      var statsObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateCount(entry.target);
+            statsObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      nums.forEach(function (num) { statsObserver.observe(num); });
+    } else {
+      // Fallback: tampilkan nilai akhir langsung
+      nums.forEach(function (el) {
+        var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+        var suffix = el.getAttribute('data-suffix') || '';
+        var value = parseFloat(el.getAttribute('data-count')).toFixed(decimals).replace('.', ',');
+        el.innerHTML = value + (suffix ? '<sup>' + suffix + '</sup>' : '');
+      });
+    }
+  }
+
+  // ============================================================
+  // Theme toggle
+  // ============================================================
+  var themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function () {
+      var root = document.documentElement;
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      var msg = next === 'dark' ? 'Mode gelap diaktifkan' : 'Mode terang diaktifkan';
+      showToast(window.t(msg), 'success');
+    });
+  }
+
+  // ============================================================
+  // Scroll reveal
+  // ============================================================
+  (function initReveal() {
+    var targets = document.querySelectorAll(
+      '.section-header, .grid-3 > *, .grid-2 > *, .process-step, .stat, .logo-strip, .cs-metrics, .case-main, .case-aside'
+    );
+    if (!targets.length) return;
+
+    function addIn(el) { el.classList.add('in'); }
+
+    if (!prefersReducedMotion() && 'IntersectionObserver' in window) {
+      var idx = 0;
+      targets.forEach(function (el) {
+        el.classList.add('js-reveal');
+        // Stagger anak grid supaya muncul berurutan
+        if (/grid-(2|3|4)/.test(el.parentElement.className)) {
+          el.style.transitionDelay = Math.min(idx * 70, 350) + 'ms';
+          idx++;
+        }
+      });
+
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            addIn(entry.target);
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+
+      targets.forEach(function (el) { revealObserver.observe(el); });
+    } else {
+      targets.forEach(addIn);
+    }
+  })();
+
+  // ============================================================
+  // Scroll handler gabungan: header, to-top, mobile CTA
+  // ============================================================
+  var toTop = document.getElementById('to-top');
+  var siteHeader = document.querySelector('.site-header');
+  var mobileCta = document.getElementById('mobile-cta');
+
+  var onScroll = function () {
+    var y = window.scrollY || 0;
+    if (siteHeader) siteHeader.classList.toggle('scrolled', y > 10);
+    if (toTop) {
+      var show = y > 600;
+      if (toTop.hidden && show) toTop.hidden = false;
+      if (!toTop.hidden && !show) toTop.hidden = true;
+      toTop.classList.toggle('visible', show);
+    }
+    if (mobileCta) {
+      var showCta = y > 600;
+      mobileCta.classList.toggle('visible', showCta);
+      document.body.classList.toggle('cta-open', showCta);
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (toTop) {
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    });
+  }
+
 })();

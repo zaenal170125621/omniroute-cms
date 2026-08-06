@@ -64,6 +64,11 @@
 
                 <div class="settings-section">Lainnya</div>
                 <div class="form-group full">
+                    <label for="field-clients">Daftar Klien (pisahkan dengan koma)</label>
+                    <textarea id="field-clients" name="clients" class="form-control" rows="2" placeholder="PT Nusantara Logistik, Kopi Luhur, ...">{{ setting('clients', '') }}</textarea>
+                    <div style="font-size:11px;color:var(--muted);margin-top:4px;">Ditampilkan sebagai strip nama klien di beranda. Kosongkan untuk menyembunyikan.</div>
+                </div>
+                <div class="form-group full">
                     <label for="field-order_note">Catatan Halaman Order</label>
                     <textarea id="field-order_note" name="order_note" class="form-control" rows="2">{{ setting('order_note', '') }}</textarea>
                 </div>

@@ -2,6 +2,33 @@
 
 @section('title', $service->title . ' — ' . setting('company_name', 'OmniRoute Studio'))
 @section('meta_description', $service->short_description)
+@section('wa_message', 'Halo, saya tertarik dengan layanan "' . $service->title . '". Bisakah info lebih lanjut?')
+
+@php
+    $svcPrice = (int) preg_replace('/[^0-9]/', '', (string) $service->starting_price);
+    $svcSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Service',
+        'name' => $service->title,
+        'description' => $service->short_description,
+        'url' => url()->current(),
+        'provider' => [
+            '@type' => 'Organization',
+            'name' => setting('company_name', 'OmniRoute Studio'),
+            'url' => url('/'),
+        ],
+    ];
+    if ($svcPrice > 0) {
+        $svcSchema['offers'] = [
+            '@type' => 'Offer',
+            'priceCurrency' => 'IDR',
+            'price' => (string) $svcPrice,
+        ];
+    }
+@endphp
+@push('head')
+    <script type="application/ld+json">{!! json_encode($svcSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+@endpush
 
 @section('content')
 

@@ -83,6 +83,12 @@ class PortfolioController extends Controller
             'year' => ['nullable', 'string', 'max:10'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
+            'client_name' => ['nullable', 'string', 'max:255'],
+            'duration' => ['nullable', 'string', 'max:100'],
+            'challenge' => ['nullable', 'string'],
+            'solution' => ['nullable', 'string'],
+            'result' => ['nullable', 'string'],
+            'metrics' => ['nullable', 'string'],
         ]);
 
         $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
@@ -90,6 +96,13 @@ class PortfolioController extends Controller
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = $data['sort_order'] ?? 0;
         $data['cover_color'] = $data['cover_color'] ?: '#0A0A0A';
+
+        $data['metrics'] = collect(explode("\n", (string) ($data['metrics'] ?? '')))
+            ->map(fn ($line) => array_map('trim', explode('|', $line, 2)))
+            ->filter(fn ($parts) => isset($parts[1]) && $parts[0] !== '')
+            ->map(fn ($parts) => ['value' => $parts[0], 'label' => $parts[1]])
+            ->values()
+            ->all();
 
         unset($data['cover_image']);
 

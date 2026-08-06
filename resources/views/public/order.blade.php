@@ -16,9 +16,9 @@
     <div class="container" style="max-width:860px;">
 
         <div class="order-steps">
-            <div class="order-step">{{ __('1 — Pilih Paket') }}</div>
-            <div class="order-step">{{ __('2 — Data Kontak') }}</div>
-            <div class="order-step">{{ __('3 — Kebutuhan & Kirim') }}</div>
+            <div class="order-step"><span class="step-dot">1</span><span class="step-label">{{ __('Pilih Paket') }}</span></div>
+            <div class="order-step"><span class="step-dot">2</span><span class="step-label">{{ __('Data Kontak') }}</span></div>
+            <div class="order-step"><span class="step-dot">3</span><span class="step-label">{{ __('Kebutuhan & Kirim') }}</span></div>
         </div>
 
         <form method="POST" action="{{ route('order.store') }}" id="order-form">
@@ -33,9 +33,15 @@
 
             {{-- STEP 1 — Pilih paket --}}
             <div class="step-panel">
+                <div class="panel-head">
+                    <span class="section-label">{{ __('Pilih Paket') }}</span>
+                    <h2>{{ __('Pilih paket sesuai kebutuhan Anda') }}</h2>
+                    <p>{{ __('Klik salah satu paket — harga dapat disesuaikan dengan kebutuhan.') }}</p>
+                </div>
                 <div class="grid-3">
                     @foreach ($packages as $package)
-                        <div class="package-option" data-package="{{ $package['code'] }}">
+                        <div class="package-option" data-package="{{ $package['code'] }}" tabindex="0">
+                            <span class="p-num">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                             <div class="p-name">{{ $package['name'] }}</div>
                             <div class="p-price">{{ $package['price'] }}</div>
                             <div class="p-desc">{{ $package['desc'] }}</div>
@@ -52,12 +58,17 @@
 
             {{-- STEP 2 — Data kontak --}}
             <div class="step-panel">
+                <div class="panel-head">
+                    <span class="section-label">{{ __('Data Kontak') }}</span>
+                    <h2>{{ __('Lengkapi data kontak Anda') }}</h2>
+                    <p>{{ __('Data Anda aman dan hanya digunakan untuk follow-up.') }}</p>
+                </div>
                 <div class="form-group">
                     <label for="name">{{ __('Nama Lengkap') }} *</label>
                     <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" required>
                 </div>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="form-grid-2">
                     <div class="form-group">
                         <label for="email">{{ __('Email') }} *</label>
                         <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required>
@@ -81,7 +92,12 @@
 
             {{-- STEP 3 — Kebutuhan & kirim --}}
             <div class="step-panel">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="panel-head">
+                    <span class="section-label">{{ __('Kebutuhan & Kirim') }}</span>
+                    <h2>{{ __('Ceritakan kebutuhan proyek Anda') }}</h2>
+                    <p>{{ __('Semakin detail, semakin akurat proposal yang kami buat.') }}</p>
+                </div>
+                <div class="form-grid-2">
                     <div class="form-group">
                         <label for="service_id">{{ __('Layanan Utama') }}</label>
                         <select id="service_id" name="service_id" class="form-control">

@@ -58,6 +58,44 @@
 </div>
 
 <div class="form-grid">
+<div class="form-group">
+    <label for="client_name">Nama Klien</label>
+    <input type="text" id="client_name" name="client_name" class="form-control" value="{{ old('client_name', $portfolio?->client_name) }}" placeholder="PT Nusantara Logistik">
+    @error('client_name') <div class="form-error">{{ $message }}</div> @enderror
+</div>
+<div class="form-group">
+    <label for="duration">Durasi Pengerjaan</label>
+    <input type="text" id="duration" name="duration" class="form-control" value="{{ old('duration', $portfolio?->duration) }}" placeholder="6 minggu">
+    @error('duration') <div class="form-error">{{ $message }}</div> @enderror
+</div>
+</div>
+
+<div class="form-group">
+<label for="challenge">Tantangan</label>
+<textarea id="challenge" name="challenge" class="form-control" rows="3" placeholder="Masalah utama yang dihadapi klien...">{{ old('challenge', $portfolio?->challenge) }}</textarea>
+@error('challenge') <div class="form-error">{{ $message }}</div> @enderror
+</div>
+
+<div class="form-group">
+<label for="solution">Solusi</label>
+<textarea id="solution" name="solution" class="form-control" rows="3" placeholder="Pendekatan yang kami ambil...">{{ old('solution', $portfolio?->solution) }}</textarea>
+@error('solution') <div class="form-error">{{ $message }}</div> @enderror
+</div>
+
+<div class="form-group">
+<label for="result">Hasil</label>
+<textarea id="result" name="result" class="form-control" rows="3" placeholder="Dampak yang dicapai...">{{ old('result', $portfolio?->result) }}</textarea>
+@error('result') <div class="form-error">{{ $message }}</div> @enderror
+</div>
+
+<div class="form-group">
+<label for="metrics">Metrik Hasil (satu per baris — format: nilai | label)</label>
+<textarea id="metrics" name="metrics" class="form-control" rows="3" placeholder="+38% | Kenaikan konversi">{{ old('metrics', collect($portfolio?->metrics ?? [])->map(fn ($m) => ($m['value'] ?? '') . ' | ' . ($m['label'] ?? ''))->implode("\n")) }}</textarea>
+<div class="form-hint">Contoh: +38% | Kenaikan konversi — ditampilkan sebagai angka besar di halaman portofolio.</div>
+@error('metrics') <div class="form-error">{{ $message }}</div> @enderror
+</div>
+
+<div class="form-grid">
     <div class="form-group">
         <label for="link">Link Live</label>
         <input type="url" id="link" name="link" class="form-control" value="{{ old('link', $portfolio?->link) }}" placeholder="https://...">

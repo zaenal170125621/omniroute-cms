@@ -3,6 +3,18 @@
 @section('title', setting('seo_title', 'OmniRoute Studio'))
 @section('meta_description', setting('seo_description', ''))
 
+@php
+    $siteSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => setting('company_name', 'OmniRoute Studio'),
+        'url' => url('/'),
+    ];
+@endphp
+@push('head')
+    <script type="application/ld+json">{!! json_encode($siteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+@endpush
+
 @section('content')
 
 {{-- ============ HERO ============ --}}
@@ -26,6 +38,25 @@
     </div>
 </div>
 
+{{-- ============ KLIEN ============ --}}
+@php
+    $clients = array_values(array_filter(array_map('trim', explode(',', (string) setting('clients', 'Nusantara Logistik, Kopi Luhur, Griya Arta, Studio Kayu, Mitra Sejahtera')))));
+@endphp
+@if ($clients)
+<section class="logo-strip">
+    <div class="container">
+        <div class="logo-strip-inner">
+            <span class="logo-strip-label">{{ __('Dipercaya oleh') }}</span>
+            <div class="logo-strip-list">
+                @foreach ($clients as $client)
+                    <span class="logo-strip-item">{{ $client }}</span>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+
 {{-- ============ LAYANAN ============ --}}
 <section class="section">
     <div class="container">
@@ -37,22 +68,24 @@
             <a href="{{ route('services.index') }}" class="section-link">{{ __('Semua Layanan') }}</a>
         </div>
 
-        <div class="grid-3">
+        <div class="svc-index">
             @foreach ($services as $service)
-                <a href="{{ route('services.show', $service->slug) }}" class="card card-link service-card">
-                    <div class="card-body">
-                        <div class="icon icon-img">
-                            @if ($icon = service_icon_url($service->icon))
-                                <img src="{{ $icon }}" alt="" aria-hidden="true" loading="lazy">
-                            @else
-                                {{ $service->icon === 'arrow' ? '→' : strtoupper(substr($service->icon, 0, 2)) }}
-                            @endif
-                        </div>
-                        <h3>{{ $service->title }}</h3>
-                        <p>{{ $service->short_description }}</p>
-                        <span class="price">{{ $service->starting_price ? __('Mulai') . ' ' . $service->starting_price : __('Harga fleksibel') }}</span>
-                        <span class="arrow" style="float:right;">→</span>
+                <a href="{{ route('services.show', $service->slug) }}" class="svc-row">
+                    <span class="svc-row-left">
+                        <span class="svc-row-num">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        @if ($icon = service_icon_url($service->icon))
+                            <span class="svc-row-icon"><img src="{{ $icon }}" alt="" aria-hidden="true" loading="lazy"></span>
+                        @endif
+                    </span>
+                    <div class="svc-row-body">
+                        <h3 class="svc-row-title">{{ $service->title }}</h3>
+                        <p class="svc-row-desc">{{ $service->short_description }}</p>
                     </div>
+                    <span class="svc-row-price">
+                        <span class="svc-price-label">{{ __('Mulai dari') }}</span>
+                        {{ $service->starting_price ?: __('Harga fleksibel') }}
+                    </span>
+                    <span class="svc-row-arrow" aria-hidden="true">→</span>
                 </a>
             @endforeach
         </div>
@@ -95,10 +128,45 @@
 <section class="section">
     <div class="container">
         <div class="stat-band">
-            <div class="stat"><div class="num">120<sup>+</sup></div><div class="label">{{ __('Proyek Selesai') }}</div></div>
-            <div class="stat"><div class="num">4,9<sup>/5</sup></div><div class="label">{{ __('Rating Klien') }}</div></div>
-            <div class="stat"><div class="num">98<sup>%</sup></div><div class="label">{{ __('Klien Merekomendasikan') }}</div></div>
-            <div class="stat"><div class="num">24<sup>h</sup></div><div class="label">{{ __('Respons Cepat') }}</div></div>
+            <div class="stat"><div class="num" data-count="120" data-suffix="+">120<sup>+</sup></div><div class="label">{{ __('Proyek Selesai') }}</div></div>
+            <div class="stat"><div class="num" data-count="4.9" data-decimals="1" data-suffix="/5">4,9<sup>/5</sup></div><div class="label">{{ __('Rating Klien') }}</div></div>
+            <div class="stat"><div class="num" data-count="98" data-suffix="%">98<sup>%</sup></div><div class="label">{{ __('Klien Merekomendasikan') }}</div></div>
+            <div class="stat"><div class="num" data-count="24" data-suffix="h">24<sup>h</sup></div><div class="label">{{ __('Respons Cepat') }}</div></div>
+        </div>
+    </div>
+</section>
+
+{{-- ============ PROSES ============ --}}
+<section class="section" style="background:var(--gray-50);">
+    <div class="container">
+        <div class="section-header">
+            <div>
+                <span class="section-label">{{ __('Proses') }}</span>
+                <h2 class="section-title">{{ __('Cara kami bekerja') }}</h2>
+            </div>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-step">
+                <span class="process-num">01</span>
+                <h3>{{ __('Brief & Konsultasi') }}</h3>
+                <p>{{ __('Diskusi kebutuhan, tujuan, dan lingkup proyek Anda — gratis.') }}</p>
+            </div>
+            <div class="process-step">
+                <span class="process-num">02</span>
+                <h3>{{ __('Proposal & Kontrak') }}</h3>
+                <p>{{ __('Kami kirim proposal, timeline, dan penawaran yang transparan.') }}</p>
+            </div>
+            <div class="process-step">
+                <span class="process-num">03</span>
+                <h3>{{ __('Desain & Pengembangan') }}</h3>
+                <p>{{ __('Desain presisi, kode rapi — dengan update progres berkala.') }}</p>
+            </div>
+            <div class="process-step">
+                <span class="process-num">04</span>
+                <h3>{{ __('Launch & Dukungan') }}</h3>
+                <p>{{ __('Website live, pelatihan konten, dan dukungan purna jual.') }}</p>
+            </div>
         </div>
     </div>
 </section>

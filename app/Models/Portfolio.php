@@ -21,10 +21,17 @@ class Portfolio extends Model
         'year',
         'sort_order',
         'is_active',
+        'client_name',
+        'duration',
+        'challenge',
+        'solution',
+        'result',
+        'metrics',
     ];
 
     protected $casts = [
         'tech_stack' => 'array',
+        'metrics' => 'array',
         'is_active' => 'boolean',
     ];
 

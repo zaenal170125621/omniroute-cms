@@ -14,24 +14,24 @@
 
 <section class="section">
     <div class="container">
-        <div class="grid-2">
+        <div class="svc-index">
             @foreach ($services as $service)
-                <a href="{{ route('services.show', $service->slug) }}" class="svc-card">
-                    <div class="svc-top">
-                        <span class="svc-num">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                <a href="{{ route('services.show', $service->slug) }}" class="svc-row">
+                    <span class="svc-row-left">
+                        <span class="svc-row-num">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         @if ($icon = service_icon_url($service->icon))
-                            <span class="svc-icon"><img src="{{ $icon }}" alt="" aria-hidden="true" loading="lazy"></span>
+                            <span class="svc-row-icon"><img src="{{ $icon }}" alt="" aria-hidden="true" loading="lazy"></span>
                         @endif
+                    </span>
+                    <div class="svc-row-body">
+                        <h3 class="svc-row-title">{{ $service->title }}</h3>
+                        <p class="svc-row-desc">{{ $service->short_description }}</p>
                     </div>
-                    <h3 class="svc-title">{{ $service->title }}</h3>
-                    <p class="svc-desc">{{ $service->short_description }}</p>
-                    <div class="svc-foot">
-                        <span class="svc-price">
-                            <span class="svc-price-label">{{ __('Mulai dari') }}</span>
-                            {{ $service->starting_price ?: __('Harga fleksibel') }}
-                        </span>
-                        <span class="svc-arrow" aria-hidden="true">→</span>
-                    </div>
+                    <span class="svc-row-price">
+                        <span class="svc-price-label">{{ __('Mulai dari') }}</span>
+                        {{ $service->starting_price ?: __('Harga fleksibel') }}
+                    </span>
+                    <span class="svc-row-arrow" aria-hidden="true">→</span>
                 </a>
             @endforeach
         </div>

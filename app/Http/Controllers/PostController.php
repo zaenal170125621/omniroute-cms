@@ -30,6 +30,24 @@ class PostController extends Controller
     {
         $post = Post::published()->where('slug', $slug)->firstOrFail();
 
-        return view('public.post-detail', compact('post'));
+        $related = Post::published()
+            ->where('id', '!=', $post->id)
+            ->when($post->category, fn ($query) => $query->where('category', $post->category))
+            ->orderBy('published_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        if ($related->count() < 3) {
+            $fill = Post::published()
+                ->where('id', '!=', $post->id)
+                ->whereNotIn('id', $related->pluck('id'))
+                ->orderBy('published_at', 'desc')
+                ->limit(3 - $related->count())
+                ->get();
+
+            $related = $related->merge($fill);
+        }
+
+        return view('public.post-detail', compact('post', 'related'));
     }
 }
