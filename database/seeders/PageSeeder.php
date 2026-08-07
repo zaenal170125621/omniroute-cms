@@ -18,13 +18,6 @@ class PageSeeder extends Seeder
                 'seo_description' => 'Kenali OmniRoute Studio — digital agency yang membangun website presisi, cepat, dan estetik sejak 2020.',
             ],
             [
-                'title' => 'Harga & Paket',
-                'slug' => 'pricing',
-                'content' => "## Investasi yang jelas\n\nKami percaya harga harus transparan. Berikut paket layanan kami:\n\n### Starter — Rp 3.500.000\n\n- Landing page 1 halaman\n- Desain custom\n- Form lead + WhatsApp\n- Selesai 5–7 hari\n\n### Business — Rp 7.500.000\n\n- Company profile hingga 8 halaman\n- Blog + CMS\n- Optimasi SEO dasar\n- Selesai 2–3 minggu\n\n### Custom — Diskusi\n\n- E-commerce / web application\n- Fitur dan integrasi khusus\n- Timeline sesuai kebutuhan\n\n> Semua paket termasuk: desain responsif, SSL, pelatihan penggunaan, dan garansi 3 bulan.\n\nButuh estimasi lebih akurat? [Konsultasi gratis](/contact) atau [mulai order](/order).",
-                'seo_title' => 'Harga & Paket — OmniRoute Studio',
-                'seo_description' => 'Paket pembuatan website transparan: Starter, Business, dan Custom. Mulai dari Rp 3.500.000.',
-            ],
-            [
                 'title' => 'Kebijakan Privasi',
                 'slug' => 'privacy',
                 'content' => "## Kebijakan Privasi\n\nTerakhir diperbarui: Agustus 2026\n\n### Data yang kami kumpulkan\n\nKami mengumpulkan data yang Anda kirimkan melalui form kontak dan form order: nama, email, nomor telepon, nama perusahaan, dan pesan.\n\n### Penggunaan data\n\nData digunakan hanya untuk:\n\n1. Menindaklanjuti permintaan Anda.\n2. Mengirim penawaran yang relevan (dengan persetujuan).\n3. Meningkatkan layanan kami.\n\n### Perlindungan\n\nSeluruh data disimpan dengan akses terbatas dan proteksi berlapis. Kami tidak menjual data Anda kepada pihak ketiga.\n\n### Kontak\n\nUntuk pertanyaan seputar privasi, hubungi [hello@omniroute.dev](mailto:hello@omniroute.dev).",

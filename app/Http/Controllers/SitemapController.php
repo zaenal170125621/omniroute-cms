@@ -24,6 +24,7 @@ class SitemapController extends Controller
         $add(route('blog.index'));
         $add(route('contact'));
         $add(route('order'));
+        $add(route('pricing'));
         $add(route('faq'));
 
         // Konten dinamis (hanya yang aktif/terbit)

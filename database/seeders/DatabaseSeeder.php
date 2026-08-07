@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             PortfolioSeeder::class,
             TestimonialSeeder::class,
+            FaqSeeder::class,
             PostSeeder::class,
             LeadSeeder::class,
             PageSeeder::class,

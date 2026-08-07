@@ -12,19 +12,30 @@ if (!function_exists('setting')) {
     }
 }
 
-if (!function_exists('active_route')) {
+if (!function_exists('wa_number')) {
     /**
-     * Helper untuk menandai menu aktif berdasarkan nama route.
+     * Nomor WhatsApp dari pengaturan, dibersihkan jadi angka polos (format 62...).
      */
-    function active_route(string $pattern, string $class = 'active'): string
+    function wa_number(): string
     {
-        $current = request()->route() ? request()->route()->getName() : '';
+        return preg_replace('/[^0-9]/', '', (string) setting('whatsapp', ''));
+    }
+}
 
-        if ($current === $pattern || str_starts_with($current, rtrim($pattern, '.') . '.')) {
-            return $class;
+if (!function_exists('wa_link')) {
+    /**
+     * Link chat WhatsApp (wa.me) dengan pesan awal opsional.
+     * Mengembalikan null jika nomor belum diatur di pengaturan.
+     */
+    function wa_link(?string $message = null): ?string
+    {
+        $number = wa_number();
+
+        if (!$number) {
+            return null;
         }
 
-        return '';
+        return 'https://wa.me/' . $number . ($message ? '?text=' . rawurlencode($message) : '');
     }
 }
 

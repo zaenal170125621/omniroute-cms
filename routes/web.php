@@ -1,18 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\AuthController as AdminAuthController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\LeadController;
-use App\Http\Controllers\Admin\PageController as AdminPageController;
-use App\Http\Controllers\Admin\PortfolioController as AdminPortfolioController;
-use App\Http\Controllers\Admin\PostController as AdminPostController;
-use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\TestimonialController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LeadExportController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PageController;
@@ -50,7 +41,7 @@ Route::post('/contact', [ContactController::class, 'store'])->middleware('thrott
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
-Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->middleware('throttle:5,1')->name('newsletter.subscribe');
 Route::get('/newsletter/confirm/{token}', [NewsletterController::class, 'confirm'])->name('newsletter.confirm');
 
 Route::get('/order', [OrderController::class, 'show'])->name('order');
@@ -73,51 +64,16 @@ Route::get('/lang/{locale}', function (string $locale) {
 
 /*
 |--------------------------------------------------------------------------
-| CMS / Admin Panel
-|--------------------------------------------------------------------------
-*/
-
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login'])->middleware('throttle:10,1')->name('login.submit');
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
-
-    Route::middleware(['auth', 'role:admin,editor,sales'])->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
-        Route::middleware('role:admin,editor')->group(function () {
-            Route::resource('services', AdminServiceController::class);
-            Route::resource('portfolios', AdminPortfolioController::class);
-            Route::resource('testimonials', TestimonialController::class);
-            Route::resource('posts', AdminPostController::class);
-            Route::resource('pages', AdminPageController::class);
-        });
-
-        Route::middleware('role:admin,sales')->group(function () {
-            Route::get('leads/export', [LeadController::class, 'export'])->name('leads.export');
-            Route::get('leads', [LeadController::class, 'index'])->name('leads.index');
-            Route::get('leads/{lead}', [LeadController::class, 'show'])->name('leads.show');
-            Route::patch('leads/{lead}/status', [LeadController::class, 'updateStatus'])->name('leads.status');
-            Route::delete('leads/{lead}', [LeadController::class, 'destroy'])->name('leads.destroy');
-        });
-
-        Route::middleware('role:admin')->group(function () {
-            Route::resource('users', UserController::class);
-            Route::get('settings', [SettingController::class, 'index'])->name('settings');
-            Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
-            Route::post('theme-preference', function () {
-                request()->validate(['theme' => 'required|in:light,dark']);
-                auth()->user()->update(['theme_preference' => request('theme')]);
-                return response()->json(['success' => true]);
-            })->name('theme-preference');
-        });
-    });
-});
-
-/*
-|--------------------------------------------------------------------------
 | Halaman statis dinamis (about, pricing, privacy, terms, dll)
-| Harus terdaftar PALING AKHIR agar tidak menangkap /admin, /services, dst.
+| Harus terdaftar PALING AKHIR agar tidak menangkap /panel, /services, dst.
 |--------------------------------------------------------------------------
 */
-Route::get('/{slug}', [PageController::class, 'show'])->name('pages.show');
+// Export CSV prospek — di luar route Filament (terdaftar setelahnya) tapi tetap
+// harus sebelum catch-all /{slug} dan hanya boleh diakses pengguna panel yang login.
+Route::get('/panel/leads/export', LeadExportController::class)
+    ->middleware(['web', \Filament\Http\Middleware\Authenticate::class])
+    ->name('panel.leads.export');
+
+Route::get('/{slug}', [PageController::class, 'show'])
+    ->where('slug', '^(?!panel$).*') // panel dipakai Filament — jangan disambar halaman statis
+    ->name('pages.show');

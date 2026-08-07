@@ -79,7 +79,7 @@ Akses: `http://127.0.0.1:8000` (website) dan `http://127.0.0.1:8000/admin` (CMS)
 ## Struktur Utama
 
 ```
-app/Helpers/helpers.php          → helper setting(), swiss_block(), active_route()
+app/Helpers/helpers.php          → helper setting(), swiss_block(), wa_number(), wa_link()
 app/Http/Controllers/           → controller publik + Admin\ (panel)
 app/Http/Middleware/RoleMiddleware.php → cek role (auth:admin,editor,sales)
 app/Models/                     → Service, Portfolio, Testimonial, Post, Page, Lead, LeadHistory, Setting, User

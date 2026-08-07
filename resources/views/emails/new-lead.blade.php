@@ -69,7 +69,7 @@
                         </table>
 
                         <p style="margin:24px 0 0;text-align:center;">
-                            <a href="{{ route('admin.leads.show', $lead) }}" style="display:inline-block;background:#0A0A0A;color:#FFFFFF;text-decoration:none;padding:12px 28px;border-radius:4px;font-weight:bold;">Lihat di Panel Admin →</a>
+                            <a href="{{ route('filament.resources.leads.edit', $lead) }}" style="display:inline-block;background:#0A0A0A;color:#FFFFFF;text-decoration:none;padding:12px 28px;border-radius:4px;font-weight:bold;">Lihat di Panel Admin →</a>
                         </p>
                     </td>
                 </tr>
